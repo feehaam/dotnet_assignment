@@ -18,6 +18,8 @@ namespace BusinessLogicLayer.Repository
         {
             _taskRepo = tasksRepo;
         }
+
+
         // -------PERSON CRUD-------
         // Create person
         public bool CreatePerson(Person person)
@@ -39,6 +41,31 @@ namespace BusinessLogicLayer.Repository
         {
             return _taskRepo.DeletePerson(personName);
         }
+
+
+        // -------TASK CRUD-------
+        // Create a new task
+        public bool CreateTask(string personName, Tasks task)
+        {
+            return _taskRepo.CreateTask(personName, task);
+        }
+        // Read task
+        public Tasks ReadTask(int id)
+        {
+            return _taskRepo.ReadTask(id);
+        }
+        // Update task
+        public bool UpdateTask(Tasks task)
+        {
+            return _taskRepo.UpdateTask(task);
+        }
+        // Delete task
+        public bool DeleteTask(int id)
+        {
+            return _taskRepo.DeleteTask(id);
+        }
+
+
 
         public List<Tasks> GetListOfTasksByName(string Name)
         {
@@ -65,19 +92,6 @@ namespace BusinessLogicLayer.Repository
             return _taskRepo.PersonExists(name);
         }
 
-
-        public Tasks GetTaskByID(int id)
-        {
-            return _taskRepo.GetTaskByID(id);
-        }
-        public bool CreateTask(string personName, Tasks task)
-        {
-            return _taskRepo.CreateTask(personName, task);
-        }
-        public bool DeleteTask(int id)
-        {
-            return _taskRepo.DeleteTask(id);
-        }
 
     }
 }

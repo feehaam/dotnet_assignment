@@ -18,6 +18,12 @@ namespace DataAccessLayer.IRepository
         bool UpdatePerson(Person person);
         bool DeletePerson(string personName);
 
+        // Tasks CRUD
+        bool CreateTask(string personName, Tasks task);
+        Tasks ReadTask(int id);
+        bool UpdateTask(Tasks task);
+        bool DeleteTask(int id);
+
         List<Person> GetTasks();
         Person GetPersonByName(string name);
         List<Tasks> GetListOfTasksByName(string Name);
@@ -25,8 +31,5 @@ namespace DataAccessLayer.IRepository
         bool PersonExists(string name);
         bool Save();
 
-        Tasks GetTaskByID(int id);
-        bool CreateTask(string personName, Tasks task);
-        bool DeleteTask(int id);
     }
 }

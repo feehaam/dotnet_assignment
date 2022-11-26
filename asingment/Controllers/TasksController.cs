@@ -19,7 +19,7 @@ namespace asingment.Controllers
             personBLL = _personBLL;
         }
 
-        // Person CRUD
+        // -----PERSON CRUD-----
         // Create a new person
         [HttpPost("/createPerson/")]
         public IActionResult CreatePerson(Person person)
@@ -88,6 +88,72 @@ namespace asingment.Controllers
         }
 
 
+        // -----TASKS CRUD-----
+        // Create a task
+        [HttpPost("/createTask/")]
+        public IActionResult CreateTask(string personName, Tasks task)
+        {
+            try
+            {
+                if (!personBLL.CreateTask(personName, task))
+                {
+                    return BadRequest("Could not create a new task.");
+                }
+                return Ok("Creation succesfull!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error while creating the task! --> " + e.Message);
+            }
+        }
+        // Get/Read a task
+        [HttpGet("/readTask/{id}")]
+        public IActionResult GetTaskById(int id)
+        {
+            try
+            {
+                var task = personBLL.ReadTask(id);
+                return Ok(task);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Task not found!");
+            }
+        }
+        // Update task
+        [HttpPost("/updateTask/")]
+        public IActionResult UpdateTask(Tasks task)
+        {
+            try
+            {
+                if (!personBLL.UpdateTask(task))
+                {
+                    return BadRequest("Could not update entity.");
+                }
+                return Ok("Task Updated!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error while updating the entity! --> " + e.Message);
+            }
+        }
+        // Delete task
+        [HttpPost("/deleteTask/{id}")]
+        public IActionResult DeleteTask(int id)
+        {
+            try
+            {
+                if (!personBLL.DeleteTask(id))
+                {
+                    return BadRequest("Could not delete entity.");
+                }
+                return Ok("Task Deleted!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error while deliting the entity! --> " + e.Message);
+            }
+        }
 
 
 
@@ -154,52 +220,9 @@ namespace asingment.Controllers
 
         
         
-        [HttpGet("/task/{id}")]
-        public IActionResult GetTaskById(int id)
-        {
-            try
-            {
-                var task = personBLL.GetTaskByID(id);
-                return Ok(task);
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Task not found!");
-            }
-        }
-        /*
-        [HttpPost("/task/")]
-        public IActionResult CreateTask(string personName, Tasks task)
-        {
-            try
-            {
-                if (!personBLL.CreateTask(task))
-                {
-                    return BadRequest("Could not create a new task.");
-                }
-                return Ok("Creation succesfull!");
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Error while creating the task! --> " + e.Message);
-            }
-        }
-        */
-        [HttpPost("/deleteTask/{id}")]
-        public IActionResult DeleteTask(int id)
-        {
-            try
-            {
-                if (!personBLL.DeleteTask(id))
-                {
-                    return BadRequest("Could not delete entity.");
-                }
-                return Ok("Task Deleted!");
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Error while deliting the entity! --> " + e.Message);
-            }
-        }
+        
+        
+
+        
     }
 }

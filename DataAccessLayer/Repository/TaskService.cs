@@ -21,7 +21,7 @@ namespace DataAccessLayer.Repository
             _context = context;
         }
 
-        // ------ Person CRUD -------
+        // ------ PERSON CRUD -------
         // Create new person
         public bool CreatePerson(Person person)
         {
@@ -37,6 +37,8 @@ namespace DataAccessLayer.Repository
             return person;
         }
         // Update person
+        /*
+        // For some reason this updataing is not working...
         public bool UpdatePerson(Person person)
         {
             try
@@ -46,8 +48,24 @@ namespace DataAccessLayer.Repository
                 {
                     DeleteTask(task.Id);
                 }
+                person = _person;
                 _context.Update(person);
                 return Save();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        */
+        // An alternative manual way
+        public bool UpdatePerson(Person person)
+        {
+            try
+            {
+                DeletePerson(person.Name);
+                CreatePerson(person);
+                return true;
             }
             catch (Exception e)
             {
@@ -65,6 +83,52 @@ namespace DataAccessLayer.Repository
                     DeleteTask(task.Id);
                 }
                 _context.Remove(GetPerson(personName));
+                Save();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
+        // ------ TASKS CRUD -------
+        // Create new task
+        public bool CreateTask(string personName, Tasks task)
+        {
+            Person person = GetPersonByName(personName);
+            Console.WriteLine(person);
+            person.Orders.Add(task);
+            _context.Update(person);
+            return Save();
+        }
+        // Read a task
+        public Tasks ReadTask(int id)
+        {
+            var task = _context.Tasks.First(x => x.Id == id);
+            return task;
+        }
+        // Update task
+        public bool UpdateTask(Tasks task)
+        {
+            try
+            {
+                _context.Update(task);
+                Save();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        // Delete task
+        public bool DeleteTask(int id)
+        {
+            try
+            {
+                _context.Remove(ReadTask(id));
                 Save();
                 return true;
             }
@@ -116,33 +180,7 @@ namespace DataAccessLayer.Repository
             return person;
         }
 
-        public Tasks GetTaskByID(int id)
-        {
-            var task = _context.Tasks.First(x => x.Id == id);
-            return task;
-        }
-
-        public bool CreateTask(string personName, Tasks task)
-        {
-            Person person = GetPersonByName(personName);
-            Console.WriteLine(person);
-            person.Orders.Add(task);
-            _context.Update(person);
-            return Save();
-        }
-        public bool DeleteTask(int id)
-        {
-            try
-            {
-                _context.Remove(GetTaskByID(id));
-                Save();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
+        
 
     }
 }

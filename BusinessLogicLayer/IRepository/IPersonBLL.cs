@@ -15,6 +15,12 @@ namespace BusinessLogicLayer.IRepository
         bool UpdatePerson(Person person);
         bool DeletePerson(string personName);
 
+        // Tasks CRUD
+        bool CreateTask(string personName, Tasks task);
+        Tasks ReadTask(int id);
+        bool UpdateTask(Tasks task);
+        bool DeleteTask(int id);
+
 
         List<Person> GetTasks();
         Person GetPersonByName(string name);
@@ -22,8 +28,5 @@ namespace BusinessLogicLayer.IRepository
         List<Tasks> GetListOfCompleTaskByName(string Name);
         bool PersonExists(string name);
 
-        Tasks GetTaskByID(int id);
-        bool CreateTask(string personName, Tasks task);
-        bool DeleteTask(int id);
     }
 }
