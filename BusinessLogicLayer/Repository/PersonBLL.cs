@@ -87,6 +87,11 @@ namespace BusinessLogicLayer.Repository
         {
             return _taskRepo.GetListOfCompleTaskByName(Name);
         }
+        // Search by word
+        public List<Tasks> SearchByWord(string word)
+        {
+            return _taskRepo.SearchByWord(word);
+        }
 
 
         // HELPER FUNCTIONS

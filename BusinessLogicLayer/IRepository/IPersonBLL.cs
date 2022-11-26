@@ -26,6 +26,7 @@ namespace BusinessLogicLayer.IRepository
         List<Tasks> GetAllOrdersBy(string name);
         List<Tasks> GetListOfTasksByName(string Name);
         List<Tasks> GetListOfCompleTaskByName(string Name);
+        List<Tasks> SearchByWord(string word);
 
         // Helper functions
         Person GetPersonByName(string name);

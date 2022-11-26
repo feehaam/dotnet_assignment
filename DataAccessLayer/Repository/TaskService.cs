@@ -144,7 +144,6 @@ namespace DataAccessLayer.Repository
         public List<Person> GetAllOrders()
         {
             return _context.Persons.OrderBy(j => j.Id).Include(i => i.Orders).ToList();
-
         }
         // List of orders placed by a specific person (ie: Feehaam/Shuvo/Susmita)
         public List<Tasks> GetAllOrdersBy(string name)
@@ -161,6 +160,12 @@ namespace DataAccessLayer.Repository
         {
             var x = _context.Tasks.Where(i => i.IsComplete == true).ToList();
             return x.Where(i => i.OrderFor == Name).ToList();
+        }
+        // Search by word
+        public List<Tasks> SearchByWord(string word)
+        {
+            var x = _context.Tasks.Where(i => i.TaskName.Contains(word)).ToList();
+            return x;
         }
 
 

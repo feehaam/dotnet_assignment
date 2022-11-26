@@ -53,7 +53,7 @@ namespace asingment.Controllers
             }
         }
         // Update person
-        [HttpPost("/updatePerson/")]
+        [HttpPut("/updatePerson/")]
         public IActionResult UpdatePerson(Person person)
         {
             try
@@ -70,7 +70,7 @@ namespace asingment.Controllers
             }
         }
         // Delete person
-        [HttpPost("/deletePerson/")]
+        [HttpDelete("/deletePerson/")]
         public IActionResult DeletePerson(string personName)
         {
             try
@@ -121,7 +121,7 @@ namespace asingment.Controllers
             }
         }
         // Update task
-        [HttpPost("/updateTask/")]
+        [HttpPut("/updateTask/")]
         public IActionResult UpdateTask(Tasks task)
         {
             try
@@ -138,7 +138,7 @@ namespace asingment.Controllers
             }
         }
         // Delete task
-        [HttpPost("/deleteTask/{id}")]
+        [HttpDelete("/deleteTask/{id}")]
         public IActionResult DeleteTask(int id)
         {
             try
@@ -216,6 +216,20 @@ namespace asingment.Controllers
             catch (Exception e)
             {
                 return BadRequest("Error parsing completed tasks! --> " + e.Message);
+            }
+        }
+        // Search by words
+        [HttpGet("/seachByWord/{word}")]
+        public IActionResult SeachByWords(string word)
+        {
+            try
+            {
+                var tasks = personBLL.SearchByWord(word);
+                return Ok(tasks);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error while searching! --> " + e.Message);
             }
         }
     }
