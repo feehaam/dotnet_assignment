@@ -17,7 +17,7 @@ namespace asingment.Controllers
             personBLL = _personBLL;
         }
 
-        [HttpGet("/getAllOrder")]
+        [HttpGet("/tasks")]
         public IActionResult GetAllOrder()
         {
             try
@@ -31,7 +31,7 @@ namespace asingment.Controllers
             }
         }
 
-        [HttpGet("/getPersonName/{name}")]
+        [HttpGet("/ordersBy/{name}")]
         public IActionResult GetPersonByName(string name)
         {
             try
@@ -50,7 +50,7 @@ namespace asingment.Controllers
             }
         }
 
-        [HttpGet("/listOfTask/{name}")]
+        [HttpGet("/ordersFor/{name}")]
         public IActionResult GetListOfTasksByName(string name)
         {
             try
@@ -64,7 +64,7 @@ namespace asingment.Controllers
             }
         }
 
-        [HttpGet("/listOfCompletedTasks/{name}")]
+        [HttpGet("/completedOrdersFor/{name}")]
         public IActionResult GetListOfCompletedTasksByName(string name)
         {
             try
@@ -78,7 +78,7 @@ namespace asingment.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("/add/")]
         public IActionResult CreatePerson(Person person)
         {
             try
