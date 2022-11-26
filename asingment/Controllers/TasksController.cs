@@ -94,5 +94,38 @@ namespace asingment.Controllers
                 return BadRequest("Error while creating the entity! --> " + e.Message);
             }
         }
+        [HttpPost("/deletePerson/")]
+        public IActionResult DeletePerson(string personName)
+        {
+            try
+            {
+                if (!personBLL.DeletePerson(personName))
+                {
+                    return BadRequest("Could not delete entity.");
+                }
+                return Ok("Person Deleted!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error while deliting the entity! --> " + e.Message);
+            }
+        }
+        [HttpPost("/updatePerson/")]
+        public IActionResult UpdatePerson(Person person)
+        {
+            try
+            {
+                if (!personBLL.UpdatePerson(person))
+                {
+                    return BadRequest("Could not update entity.");
+                }
+                return Ok("Person Updated!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error while updating the entity! --> " + e.Message);
+            }
+        }
+
     }
 }

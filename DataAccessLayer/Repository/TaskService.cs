@@ -58,5 +58,37 @@ namespace DataAccessLayer.Repository
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
+        public bool DeletePerson(string personName)
+        {
+            try
+            {
+                _context.Remove(GetPerson(personName));
+                Save();
+                return true;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+        }
+
+        public bool UpdatePerson(Person person)
+        {
+            try
+            {
+                _context.Update(person);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        private Person GetPerson(string name)
+        {
+            var person = _context.Persons.FirstOrDefault(x => x.Name == name);
+            return person;
+        }
     }
 }

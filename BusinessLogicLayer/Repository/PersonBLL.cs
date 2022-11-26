@@ -46,5 +46,15 @@ namespace BusinessLogicLayer.Repository
         {
             return _taskRepo.PersonExists(name);
         }
+
+        public bool DeletePerson(string personName)
+        {
+            return _taskRepo.DeletePerson(personName);
+        }
+
+        public bool UpdatePerson(Person person)
+        {
+            return _taskRepo.UpdatePerson(person);
+        }
     }
 }
