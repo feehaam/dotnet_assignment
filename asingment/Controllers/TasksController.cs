@@ -4,6 +4,8 @@ using DataAccessLayer.IRepository;
 using DataAccessLayer.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Xml.Linq;
 
 namespace asingment.Controllers
 {
@@ -16,6 +18,78 @@ namespace asingment.Controllers
         {
             personBLL = _personBLL;
         }
+
+        // Person CRUD
+        // Create a new person
+        [HttpPost("/createPerson/")]
+        public IActionResult CreatePerson(Person person)
+        {
+            try
+            {
+                if (!personBLL.CreatePerson(person))
+                {
+                    return BadRequest("Duplicate or null! Could not create new entity.");
+                }
+                return Ok("Creation succesfull!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error while creating the entity! --> " + e.Message);
+            }
+        }
+        // Get a person by id
+        [HttpGet("/readPerson{personId}")]
+        public IActionResult ReadPerson(int personId)
+        {
+            try
+            {
+                var person = personBLL.ReadPerson(personId);
+                if (person == null) return BadRequest("Person doesn't exist");
+                return Ok(person);
+            }
+            catch (Exception e)
+            {
+                return NotFound("Error while searching! --> " + e.Message);
+            }
+        }
+        // Update person
+        [HttpPost("/updatePerson/")]
+        public IActionResult UpdatePerson(Person person)
+        {
+            try
+            {
+                if (!personBLL.UpdatePerson(person))
+                {
+                    return BadRequest("Could not update entity.");
+                }
+                return Ok("Person Updated!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error while updating the entity! --> " + e.Message);
+            }
+        }
+        // Delete person
+        [HttpPost("/deletePerson/")]
+        public IActionResult DeletePerson(string personName)
+        {
+            try
+            {
+                if (!personBLL.DeletePerson(personName))
+                {
+                    return BadRequest("Could not delete entity.");
+                }
+                return Ok("Person Deleted!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error while deliting the entity! --> " + e.Message);
+            }
+        }
+
+
+
+
 
         [HttpGet("/tasks")]
         public IActionResult GetAllOrder()
@@ -78,54 +152,54 @@ namespace asingment.Controllers
             }
         }
 
-        [HttpPost("/add/")]
-        public IActionResult CreatePerson(Person person)
+        
+        
+        [HttpGet("/task/{id}")]
+        public IActionResult GetTaskById(int id)
         {
             try
             {
-                if (!personBLL.CreatePerson(person))
+                var task = personBLL.GetTaskByID(id);
+                return Ok(task);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Task not found!");
+            }
+        }
+        /*
+        [HttpPost("/task/")]
+        public IActionResult CreateTask(string personName, Tasks task)
+        {
+            try
+            {
+                if (!personBLL.CreateTask(task))
                 {
-                    return BadRequest("Could not create a new entity.");
+                    return BadRequest("Could not create a new task.");
                 }
                 return Ok("Creation succesfull!");
             }
             catch (Exception e)
             {
-                return BadRequest("Error while creating the entity! --> " + e.Message);
+                return BadRequest("Error while creating the task! --> " + e.Message);
             }
         }
-        [HttpPost("/deletePerson/")]
-        public IActionResult DeletePerson(string personName)
+        */
+        [HttpPost("/deleteTask/{id}")]
+        public IActionResult DeleteTask(int id)
         {
             try
             {
-                if (!personBLL.DeletePerson(personName))
+                if (!personBLL.DeleteTask(id))
                 {
                     return BadRequest("Could not delete entity.");
                 }
-                return Ok("Person Deleted!");
+                return Ok("Task Deleted!");
             }
             catch (Exception e)
             {
                 return BadRequest("Error while deliting the entity! --> " + e.Message);
             }
         }
-        [HttpPost("/updatePerson/")]
-        public IActionResult UpdatePerson(Person person)
-        {
-            try
-            {
-                if (!personBLL.UpdatePerson(person))
-                {
-                    return BadRequest("Could not update entity.");
-                }
-                return Ok("Person Updated!");
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Error while updating the entity! --> " + e.Message);
-            }
-        }
-
     }
 }

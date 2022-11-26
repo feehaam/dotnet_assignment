@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.IRepository;
 using DataAccessLayer.IRepository;
 using DataAccessLayer.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,26 @@ namespace BusinessLogicLayer.Repository
         {
             _taskRepo = tasksRepo;
         }
+        // -------PERSON CRUD-------
+        // Create person
         public bool CreatePerson(Person person)
         {
             return _taskRepo.CreatePerson(person);
+        }
+        // Read person
+        public Person ReadPerson(int id)
+        {
+            return (_taskRepo.ReadPerson(id));
+        }
+        // Update person
+        public bool UpdatePerson(Person person)
+        {
+            return _taskRepo.UpdatePerson(person);
+        }
+        // Delete person
+        public bool DeletePerson(string personName)
+        {
+            return _taskRepo.DeletePerson(personName);
         }
 
         public List<Tasks> GetListOfTasksByName(string Name)
@@ -47,14 +65,19 @@ namespace BusinessLogicLayer.Repository
             return _taskRepo.PersonExists(name);
         }
 
-        public bool DeletePerson(string personName)
+
+        public Tasks GetTaskByID(int id)
         {
-            return _taskRepo.DeletePerson(personName);
+            return _taskRepo.GetTaskByID(id);
+        }
+        public bool CreateTask(string personName, Tasks task)
+        {
+            return _taskRepo.CreateTask(personName, task);
+        }
+        public bool DeleteTask(int id)
+        {
+            return _taskRepo.DeleteTask(id);
         }
 
-        public bool UpdatePerson(Person person)
-        {
-            return _taskRepo.UpdatePerson(person);
-        }
     }
 }
