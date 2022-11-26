@@ -139,48 +139,49 @@ namespace DataAccessLayer.Repository
         }
 
 
+        // OTHER REQUIRED FUNCTIONS
+        // List of all orders
+        public List<Person> GetAllOrders()
+        {
+            return _context.Persons.OrderBy(j => j.Id).Include(i => i.Orders).ToList();
 
+        }
+        // List of orders placed by a specific person (ie: Feehaam/Shuvo/Susmita)
+        public List<Tasks> GetAllOrdersBy(string name)
+        {
+            return (_context.Persons.Where(i => i.Name == name).Include(i => i.Orders).FirstOrDefault()).Orders;
+        }
+        // List of orders for a specific delivery man (ie: Sumon/Shohag)
         public List<Tasks> GetListOfTasksByName(string Name)
         {
             return _context.Tasks.Where(i => i.OrderFor == Name).ToList();
         }
-
-
+        // List of orders completed by a specific delivery man (ie: Sumon/Shohag)
         public List<Tasks> GetListOfCompleTaskByName(string Name)
         {
             var x = _context.Tasks.Where(i => i.IsComplete == true).ToList();
             return x.Where(i => i.OrderFor == Name).ToList();
         }
 
+
+        // Helper functions
         public Person GetPersonByName(string name)
         {
             return _context.Persons.Where(i => i.Name == name).Include(i => i.Orders).FirstOrDefault();
         }
-
-        public List<Person> GetTasks()
-        {
-            return _context.Persons.OrderBy(j => j.Id).Include(i => i.Orders).ToList();
-            
-        }
-
         public bool PersonExists(string name)
         {
             return _context.Persons.Any(x => x.Name == name);
         }
-
         public bool Save()
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
-
         private Person GetPerson(string name)
         {
             var person = _context.Persons.FirstOrDefault(x => x.Name == name);
             return person;
         }
-
-        
-
     }
 }

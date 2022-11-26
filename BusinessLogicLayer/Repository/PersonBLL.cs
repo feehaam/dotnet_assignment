@@ -66,32 +66,37 @@ namespace BusinessLogicLayer.Repository
         }
 
 
-
+        // OTHER REQUIRED FUNCTIONS
+        // List of all orders
+        public List<Person> GetAllOrders()
+        {
+            return _taskRepo.GetAllOrders();
+        }
+        // List of orders placed by a specific person (ie: Feehaam/Shuvo/Susmita)
+        public List<Tasks> GetAllOrdersBy(string name)
+        {
+            return _taskRepo.GetAllOrdersBy(name);
+        }
+        // List of orders for a specific delivery man (ie: Sumon/Shohag)
         public List<Tasks> GetListOfTasksByName(string Name)
         {
             return _taskRepo.GetListOfTasksByName(Name);
         }
-
+        // List of orders completed by a specific delivery man (ie: Sumon/Shohag)
         public List<Tasks> GetListOfCompleTaskByName(string Name)
         {
             return _taskRepo.GetListOfCompleTaskByName(Name);
         }
 
+
+        // HELPER FUNCTIONS
         public Person GetPersonByName(string name)
         {
             return _taskRepo.GetPersonByName(name);
         }
-
-        public List<Person> GetTasks()
-        {
-            return _taskRepo.GetTasks();
-        }
-
         public bool PersonExists(string name)
         {
             return _taskRepo.PersonExists(name);
         }
-
-
     }
 }

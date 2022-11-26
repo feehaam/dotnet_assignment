@@ -156,13 +156,14 @@ namespace asingment.Controllers
         }
 
 
-
-        [HttpGet("/tasks")]
+        // ------ OTHER REQUIRED API's ------
+        // List of all orders
+        [HttpGet("/allOrders")]
         public IActionResult GetAllOrder()
         {
             try
             {
-                var all = personBLL.GetTasks();
+                var all = personBLL.GetAllOrders();
                 return Ok(all);
             }
             catch (Exception e)
@@ -170,8 +171,8 @@ namespace asingment.Controllers
                 return BadRequest("Error parsing all orders! --> " + e.Message);
             }
         }
-
-        [HttpGet("/ordersBy/{name}")]
+        // List of orders placed by a specific person (ie: Feehaam/Shuvo/Susmita)
+        [HttpGet("/ordersPlacedBy/{name}")]
         public IActionResult GetPersonByName(string name)
         {
             try
@@ -189,8 +190,8 @@ namespace asingment.Controllers
                 return NotFound("Error while searching! --> " + e.Message);
             }
         }
-
-        [HttpGet("/ordersFor/{name}")]
+        // List of orders for a specific delivery man (ie: Sumon/Shohag)
+        [HttpGet("/ordersPlacedFor/{name}")]
         public IActionResult GetListOfTasksByName(string name)
         {
             try
@@ -203,8 +204,8 @@ namespace asingment.Controllers
                 return BadRequest("Error parsing tasks! --> " + e.Message);
             }
         }
-
-        [HttpGet("/completedOrdersFor/{name}")]
+        // List of orders completed by a specific delivery man (ie: Sumon/Shohag)
+        [HttpGet("/ordersCompletedBy/{name}")]
         public IActionResult GetListOfCompletedTasksByName(string name)
         {
             try
@@ -217,12 +218,5 @@ namespace asingment.Controllers
                 return BadRequest("Error parsing completed tasks! --> " + e.Message);
             }
         }
-
-        
-        
-        
-        
-
-        
     }
 }

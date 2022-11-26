@@ -11,7 +11,6 @@ namespace DataAccessLayer.IRepository
 {
     public interface ITaskService
     {
-
         // Person CRUD
         bool CreatePerson(Person person);
         Person ReadPerson(int id);
@@ -24,12 +23,15 @@ namespace DataAccessLayer.IRepository
         bool UpdateTask(Tasks task);
         bool DeleteTask(int id);
 
-        List<Person> GetTasks();
-        Person GetPersonByName(string name);
+        // Other required functions
+        List<Person> GetAllOrders();
+        List<Tasks> GetAllOrdersBy(string name);
         List<Tasks> GetListOfTasksByName(string Name);
         List<Tasks> GetListOfCompleTaskByName(string Name);
+
+        // Helper functions
+        Person GetPersonByName(string name);
         bool PersonExists(string name);
         bool Save();
-
     }
 }
