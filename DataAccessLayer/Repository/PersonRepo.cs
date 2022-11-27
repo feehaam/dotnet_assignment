@@ -65,6 +65,8 @@ namespace DataAccessLayer.Repository
             {
                 DeletePerson(person.Name);
                 CreatePerson(person);
+                _context.SaveChanges();
+                _helperRepo.Save();
                 return true;
             }
             catch (Exception e)
@@ -78,13 +80,18 @@ namespace DataAccessLayer.Repository
             try
             {
                 Person person = _helperRepo.GetPersonByName(personName);
-                foreach (var task in person.Orders)
+                if(person != null && person.Orders != null)
                 {
-                    _taskRepo.DeleteTask(task.Id);
+                    foreach (var task in person.Orders)
+                    {
+                        _taskRepo.DeleteTask(task.Id);
+                    }
+                    _context.Remove(_helperRepo.GetPerson(personName));
+
+                    return true;
                 }
-                _context.Remove(_helperRepo.GetPerson(personName));
                 _helperRepo.Save();
-                return true;
+                return false;
             }
             catch (Exception e)
             {

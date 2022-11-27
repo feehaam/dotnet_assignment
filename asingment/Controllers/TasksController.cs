@@ -13,80 +13,12 @@ namespace asingment.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly IPersonBLL personBLL;
-        public TasksController(IPersonBLL _personBLL)
-        {
-            personBLL = _personBLL;
-        }
+        private readonly ITasksBLL taskBLL;
 
-        // -----PERSON CRUD-----
-        // Create a new person
-        [HttpPost("/createPerson/")]
-        public IActionResult CreatePerson(Person person)
+        public TasksController(ITasksBLL tasksBLL)
         {
-            try
-            {
-                if (!personBLL.CreatePerson(person))
-                {
-                    return BadRequest("Duplicate or null! Could not create new entity.");
-                }
-                return Ok("Creation succesfull!");
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Error while creating the entity! --> " + e.Message);
-            }
+            this.taskBLL = tasksBLL;
         }
-        // Get a person by id
-        [HttpGet("/readPerson{personId}")]
-        public IActionResult ReadPerson(int personId)
-        {
-            try
-            {
-                var person = personBLL.ReadPerson(personId);
-                if (person == null) return BadRequest("Person doesn't exist");
-                return Ok(person);
-            }
-            catch (Exception e)
-            {
-                return NotFound("Error while searching! --> " + e.Message);
-            }
-        }
-        // Update person
-        [HttpPut("/updatePerson/")]
-        public IActionResult UpdatePerson(Person person)
-        {
-            try
-            {
-                if (!personBLL.UpdatePerson(person))
-                {
-                    return BadRequest("Could not update entity.");
-                }
-                return Ok("Person Updated!");
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Error while updating the entity! --> " + e.Message);
-            }
-        }
-        // Delete person
-        [HttpDelete("/deletePerson/")]
-        public IActionResult DeletePerson(string personName)
-        {
-            try
-            {
-                if (!personBLL.DeletePerson(personName))
-                {
-                    return BadRequest("Could not delete entity.");
-                }
-                return Ok("Person Deleted!");
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Error while deliting the entity! --> " + e.Message);
-            }
-        }
-
 
         // -----TASKS CRUD-----
         // Create a task
@@ -95,7 +27,7 @@ namespace asingment.Controllers
         {
             try
             {
-                if (!personBLL.CreateTask(personName, task))
+                if (!taskBLL.CreateTask(personName, task))
                 {
                     return BadRequest("Could not create a new task.");
                 }
@@ -112,7 +44,7 @@ namespace asingment.Controllers
         {
             try
             {
-                var task = personBLL.ReadTask(id);
+                var task = taskBLL.ReadTask(id);
                 return Ok(task);
             }
             catch (Exception e)
@@ -126,7 +58,7 @@ namespace asingment.Controllers
         {
             try
             {
-                if (!personBLL.UpdateTask(task))
+                if (!taskBLL.UpdateTask(task))
                 {
                     return BadRequest("Could not update entity.");
                 }
@@ -143,7 +75,7 @@ namespace asingment.Controllers
         {
             try
             {
-                if (!personBLL.DeleteTask(id))
+                if (!taskBLL.DeleteTask(id))
                 {
                     return BadRequest("Could not delete entity.");
                 }
@@ -152,84 +84,6 @@ namespace asingment.Controllers
             catch (Exception e)
             {
                 return BadRequest("Error while deliting the entity! --> " + e.Message);
-            }
-        }
-
-
-        // ------ OTHER REQUIRED API's ------
-        // List of all orders
-        [HttpGet("/allOrders")]
-        public IActionResult GetAllOrder()
-        {
-            try
-            {
-                var all = personBLL.GetAllOrders();
-                return Ok(all);
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Error parsing all orders! --> " + e.Message);
-            }
-        }
-        // List of orders placed by a specific person (ie: Feehaam/Shuvo/Susmita)
-        [HttpGet("/ordersPlacedBy/{name}")]
-        public IActionResult GetPersonByName(string name)
-        {
-            try
-            {
-                var person = personBLL.PersonExists(name);
-                if (!person)
-                {
-                    return NotFound("Person/Entity not found!");
-                }
-                var res = personBLL.GetPersonByName(name);
-                return Ok(res);
-            }
-            catch (Exception e)
-            {
-                return NotFound("Error while searching! --> " + e.Message);
-            }
-        }
-        // List of orders for a specific delivery man (ie: Sumon/Shohag)
-        [HttpGet("/ordersPlacedFor/{name}")]
-        public IActionResult GetListOfTasksByName(string name)
-        {
-            try
-            {
-                var tasks = personBLL.GetListOfTasksByName(name);
-                return Ok(tasks);
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Error parsing tasks! --> " + e.Message);
-            }
-        }
-        // List of orders completed by a specific delivery man (ie: Sumon/Shohag)
-        [HttpGet("/ordersCompletedBy/{name}")]
-        public IActionResult GetListOfCompletedTasksByName(string name)
-        {
-            try
-            {
-                var tasks = personBLL.GetListOfCompleTaskByName(name);
-                return Ok(tasks);
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Error parsing completed tasks! --> " + e.Message);
-            }
-        }
-        // Search by words
-        [HttpGet("/seachByWord/{word}")]
-        public IActionResult SeachByWords(string word)
-        {
-            try
-            {
-                var tasks = personBLL.SearchByWord(word);
-                return Ok(tasks);
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Error while searching! --> " + e.Message);
             }
         }
     }
