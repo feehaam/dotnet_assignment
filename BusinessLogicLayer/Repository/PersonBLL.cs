@@ -13,10 +13,16 @@ namespace BusinessLogicLayer.Repository
     public class PersonBLL : IPersonBLL
     {
 
-        private readonly ITaskService _taskRepo;
-        public PersonBLL(ITaskService tasksRepo)
+        private readonly ITaskRepo _taskRepo;
+        private readonly IHelperRepo _helperRepo;
+        private readonly IFilterRepo _filterRepo;
+        private readonly IPersonRepo _personRepo;
+        public PersonBLL(ITaskRepo tasksRepo, IHelperRepo helperRepo, IFilterRepo filterRepo, IPersonRepo personRepo)
         {
             _taskRepo = tasksRepo;
+            _helperRepo = helperRepo;
+            _filterRepo = filterRepo;
+            _personRepo = personRepo;
         }
 
 
@@ -24,22 +30,22 @@ namespace BusinessLogicLayer.Repository
         // Create person
         public bool CreatePerson(Person person)
         {
-            return _taskRepo.CreatePerson(person);
+            return _personRepo.CreatePerson(person);
         }
         // Read person
         public Person ReadPerson(int id)
         {
-            return (_taskRepo.ReadPerson(id));
+            return (_personRepo.ReadPerson(id));
         }
         // Update person
         public bool UpdatePerson(Person person)
         {
-            return _taskRepo.UpdatePerson(person);
+            return _personRepo.UpdatePerson(person);
         }
         // Delete person
         public bool DeletePerson(string personName)
         {
-            return _taskRepo.DeletePerson(personName);
+            return _personRepo.DeletePerson(personName);
         }
 
 
@@ -70,38 +76,38 @@ namespace BusinessLogicLayer.Repository
         // List of all orders
         public List<Person> GetAllOrders()
         {
-            return _taskRepo.GetAllOrders();
+            return _filterRepo.GetAllOrders();
         }
         // List of orders placed by a specific person (ie: Feehaam/Shuvo/Susmita)
         public List<Tasks> GetAllOrdersBy(string name)
         {
-            return _taskRepo.GetAllOrdersBy(name);
+            return _filterRepo.GetAllOrdersBy(name);
         }
         // List of orders for a specific delivery man (ie: Sumon/Shohag)
         public List<Tasks> GetListOfTasksByName(string Name)
         {
-            return _taskRepo.GetListOfTasksByName(Name);
+            return _filterRepo.GetListOfTasksByName(Name);
         }
         // List of orders completed by a specific delivery man (ie: Sumon/Shohag)
         public List<Tasks> GetListOfCompleTaskByName(string Name)
         {
-            return _taskRepo.GetListOfCompleTaskByName(Name);
+            return _filterRepo.GetListOfCompleTaskByName(Name);
         }
         // Search by word
         public List<Tasks> SearchByWord(string word)
         {
-            return _taskRepo.SearchByWord(word);
+            return _filterRepo.SearchByWord(word);
         }
 
 
         // HELPER FUNCTIONS
         public Person GetPersonByName(string name)
         {
-            return _taskRepo.GetPersonByName(name);
+            return _helperRepo.GetPersonByName(name);
         }
         public bool PersonExists(string name)
         {
-            return _taskRepo.PersonExists(name);
+            return _helperRepo.PersonExists(name);
         }
     }
 }
